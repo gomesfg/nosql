@@ -1,12 +1,10 @@
-# Redinsgo
+# Neo4j
 
-O Redinsgo é um jogo de bingo que utiliza estruturas em um banco chave/valor. Para seu desenvolvimento foi utilizado o node.js e o banco de dados não relacional Redis.
+Aluno: Felipe Eduardo Gomes
 
-## Getting Started
+## Exercício 1 - Retrieving Nodes
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
+### Exercise 1.1: Retrieve all nodes from the database
 
 What things you need to install the software and how to install them
 
