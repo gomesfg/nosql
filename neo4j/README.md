@@ -1,86 +1,99 @@
-# Neo4j
+## Neo4j
 
 Aluno: Felipe Eduardo Gomes
 
-## Exercício 1 - Retrieving Nodes
+### Exercício 1 - Retrieving Nodes
 
-### Exercise 1.1: Retrieve all nodes from the database
-
-What things you need to install the software and how to install them
+##### Exercise 1.1: Retrieve all nodes from the database
 
 ```
-Give examples
+match (n) return (n)
 ```
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+##### Exercise 1.2: Examine the data model for the graph.
 
 ```
-Give the example
+call db.schema()
 ```
 
-And repeat
+##### Exercise 1.3: Retrieve all Person nodes.
 
 ```
-until finished
+match (p:Person) return (p)
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+##### Exercise 1.4: Retrieve all Movie nodes.
 
 ```
-Give an example
+match (m:Movie) return (m)
 ```
 
-### And coding style tests
+### Exercício 2 - Filtering queries using property values
 
-Explain what these tests test and why
+##### Exercise 2.1: Retrieve all movies that were released in a specific year.
 
 ```
-Give an example
+MATCH (m:Movie {released: 1999}) RETURN m
 ```
 
-## Deployment
+##### Exercise 2.2: View the retrieved results as a table.
 
-Add additional notes about how to deploy this on a live system
+```
+MATCH (m:Movie {released: 1999}) RETURN m.title,m.released
+```
 
-## Built With
+##### Exercise 2.3: Query the database for all property keys
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+```
+call db.propertyKeys
+```
 
-## Contributing
+##### Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles.
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+```
+MATCH (m:Movie {released: 1999}) RETURN m.title
+```
 
-## Versioning
+##### Exercise 2.5: Display title, released, and tagline values for every Movie node in the graph.
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+```
+MATCH (m:Movie) RETURN m.title,m.released,m.tagline
+```
 
-## Authors
+##### Exercise 2.6: Display more user-friendly headers in the table
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+### Exercício 3 - Filtering queries using relationships
 
-## License
+##### Exercise 3.1: Display the schema of the database.
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+```
+call db.schema
+```
 
-## Acknowledgments
+##### Exercise 3.2: Retrieve all people who wrote the movie Speed Racer.
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+```
+match (p:Person)-[:WROTE]->(:Movie {title: 'Speed Racer'}) return p.name
+```
 
+##### Exercise 3.3: Retrieve all movies that are connected to the person, Tom Hanks.
+
+```
+match (m:Movie)<--(:Person {name: 'Tom Hanks'}) return m.title
+```
+
+##### Exercise 3.4: Retrieve information about the relationships Tom Hanks had with the set of movies retrieved earlier.
+
+```
+match (m:Movie)-[rel]-(:Person {name: 'Tom Hanks'}) return m.title, type(rel)
+```
+
+##### Exercise 3.5: Retrieve information about the roles that Tom Hanks acted in.
+
+```
+match (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) return m.title, rel.roles
+```
