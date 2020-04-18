@@ -1,6 +1,6 @@
 ## Neo4j
 
-Banco de Dados Não-Relacionais
+Banco de Dados Não-Relacionais<br/>
 Aluno: Felipe Eduardo Gomes
 
 ### Exercício 1 - Retrieving Nodes
