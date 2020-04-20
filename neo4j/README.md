@@ -15,7 +15,7 @@ match (n) return (n)
 > Exercise 1.2: Examine the data model for the graph.
 
 ```
-call db.schema()
+// Não consegui fazer
 ```
 <br/>
 
@@ -82,7 +82,7 @@ MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,
 > Exercise 3.1: Display the schema of the database.
 
 ```
-call db.schema
+// Não consegui fazer
 ```
 <br/>
 
@@ -306,35 +306,47 @@ return distinct m.released, m.title, collect(a.name)
 > Exercise 6.2: Modify the query to eliminate duplication.
 
 ```
-
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+where m.released >= 1990 AND m.released < 2000
+return  m.released, collect(m.title), collect(a.name)
 ```
 <br/>
 
 > Exercise 6.3: Modify the query to eliminate more duplication.
 
 ```
-
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+where m.released >= 1990 AND m.released < 2000
+return  m.released, collect(DISTINCT m.title), collect(a.name)
 ```
 <br/>
 
 > Exercise 6.4: Sort results returned.
 
 ```
-
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+where m.released >= 1990 AND m.released < 2000
+return  m.released, collect(DISTINCT m.title), collect(a.name)
+order by m.released desc
 ```
 <br/>
 
 > Exercise 6.5: Retrieve the top 5 ratings and their associated movies.
 
 ```
-
+match (:Person)-[r:REVIEWED]->(m:Movie)
+return  m.title as Filme, r.rating as Nota 
+order by r.rating desc limit 5
 ```
 <br/>
 
 > Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies.
 
 ```
-
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+with a, count(a) as numeroFilmes, collect(m.title) as Filmes
+where numeroFilmes <= 3
+return a.name, Filmes
 ```
 <br/>
 
@@ -343,28 +355,41 @@ return distinct m.released, m.title, collect(a.name)
 > Exercise 7.1: Collect and use lists
 
 ```
-
+match (a:Person)-[:ACTED_IN]->(m:Movie),(m)<-[:PRODUCED]-(p:Person)
+with m, collect(distinct a.name) as Elenco, collect(distinct p.name) as Produtores
+return distinct m.title, Elenco, Produtores
+order by size(Elenco)
 ```
 <br/>
 
 > Exercise 7.2: Collect a list
 
 ```
-
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+with p, collect(m) as Filmes
+where size(Filmes)  > 5
+return p.name, Filmes
 ```
 <br/>
 
 > Exercise 7.3: Unwind a list
 
 ```
-
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+with p, collect(m) as Filmes
+where size(Filmes) > 5
+with p, Filmes unwind Filmes AS Filme
+return p.name, Filme.title
 ```
 <br/>
 
 > Exercise 7.4: Perform a calculation with the date type.
 
 ```
-
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+where a.name = 'Tom Hanks'
+return  m.title, m.released, date().year - m.released as lancadoAnosAtras, m.released - a.born as `Idade do Tom`
+order by lancadoAnosAtras
 ```
 <br/>
 
@@ -373,126 +398,157 @@ return distinct m.released, m.title, collect(a.name)
 > Exercise 8.1: Create a Movie node.
 
 ```
-
+create (:Movie {title: 'Forrest Gump'})
 ```
 <br/>
 
 > Exercise 8.2: Retrieve the newly-created node.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+return m
 ```
 <br/>
 
 > Exercise 8.3: Create a Person node.
 
 ```
-
+create (:Person {name: 'Robin Wright'})
 ```
 <br/>
 
 > Exercise 8.4: Retrieve the newly-created node.
 
 ```
-
+match (p:Person)
+where p.name = 'Robin Wright'
+return p
 ```
 <br/>
 
 > Exercise 8.5: Add a label to a node.
 
 ```
-
+match (m:Movie)
+where m.released < 2010
+set m:OlderMovie
+return distinct labels(m)
 ```
 <br/>
 
 > Exercise 8.6: Retrieve the node using the new label.
 
 ```
-
+match (m:OlderMovie)
+return m.title, m.released
 ```
 <br/>
 
 > Exercise 8.7: Add the Female label to selected nodes.
 
 ```
-
+match (p:Person)
+where p.name starts with 'Robin'
+set p:Female
 ```
 <br/>
 
 > Exercise 8.8: Retrieve all Female nodes.
 
 ```
-
+match (p:Female)
+return p.name
 ```
 <br/>
 
 > Exercise Exercise 8.9: Remove the Female label from the nodes that have this label.
 
 ```
-
+match (p:Female)
+remove p:Female
 ```
 <br/>
 
 > Exercise 8.10: View the current schema of the graph.
 
 ```
-
+// Não consegui fazer
 ```
 <br/>
 
 > Exercise 8.11: Add properties to a movie.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+set m:OlderMovie,
+    m.released = 1994,
+    m.tagline = "Life is like a box of chocolates...you never know what you're gonna get.",
+    m.lengthInMinutes = 142
 ```
 <br/>
 
 > Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties.
 
 ```
-
+match (m:OlderMovie)
+where m.title = 'Forrest Gump'
+return m
 ```
 <br/>
 
 > Exercise 8.13: Add properties to the person, Robin Wright.
 
 ```
-
+match (p:Person)
+where p.name = 'Robin Wright'
+set p.born = 1966, p.birthPlace = 'Dallas'
 ```
 <br/>
 
 > Exercise 8.14: Retrieve an updated Person node.
 
 ```
-
+match (p:Person)
+where p.name = 'Robin Wright'
+return p
 ```
 <br/>
 
 > Exercise 8.15: Remove a property from a Movie node.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+set m.lengthInMinutes = null
 ```
 <br/>
 
 > Exercise 8.16: Retrieve the node to confirm that the property has been removed.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+return m
 ```
 <br/>
 
 > Exercise 8.17: Remove a property from a Person node.
 
 ```
-
+match (p:Person)
+where p.name = 'Robin Wright'
+remove p.birthPlace
 ```
 <br/>
 
 > Exercise 8.18: Retrieve the node to confirm that the property has been removed.
 
 ```
-
+match (p:Person)
+where p.name = 'Robin Wright'
+return p
 ```
 <br/>
 
@@ -501,91 +557,123 @@ return distinct m.released, m.title, collect(a.name)
 > Exercise 9.1: Create ACTED_IN relationships.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+match (p:Person)
+where p.name = 'Tom Hanks' or p.name = 'Robin Wright' or p.name = 'Gary Sinise'
+create (p)-[:ACTED_IN]->(m)
 ```
 <br/>
 
 > Exercise 9.2: Create DIRECTED relationships.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+match (p:Person)
+where p.name = 'Robert Zemeckis'
+create (p)-[:DIRECTED]->(m)
 ```
 <br/>
 
 > Exercise 9.3: Create a HELPED relationship.
 
 ```
-
+match (p1:Person)
+where p1.name = 'Tom Hanks'
+match (p2:Person)
+where p2.name = 'Gary Sinise'
+create (p1)-[:HELPED]->(p2)
 ```
 <br/>
 
 > Exercise 9.4: Query nodes and new relationships.
 
 ```
-
+match (p:Person)-[rel]-(m:Movie)
+where m.title = 'Forrest Gump'
+return p, rel, m
 ```
 <br/>
 
 > Exercise 9.5: Add properties to relationships.
 
 ```
-
+match (p:Person)-[rel:ACTED_IN]->(m:Movie)
+where m.title = 'Forrest Gump'
+set rel.roles =
+case p.name
+  when 'Tom Hanks' then ['Forrest Gump']
+  when 'Robin Wright' then ['Jenny Curran']
+  when 'Gary Sinise' then ['Lieutenant Dan Taylor']
+end
 ```
 <br/>
 
 > Exercise 9.6: Add a property to the HELPED relationship.
 
 ```
-
+match (p1:Person)-[rel:HELPED]->(p2:Person)
+where p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
+set rel.research = 'war history'
 ```
 <br/>
 
 > Exercise 9.7: View the current list of property keys in the graph.
 
 ```
-
+call db.propertyKeys
 ```
 <br/>
 
 > Exercise 9.8: View the current schema of the graph.
 
 ```
-
+// Não consegui fazer
 ```
 <br/>
 
 > Exercise 9.9: Retrieve the names and roles for actors.
 
 ```
-
+match (p:Person)-[rel:ACTED_IN]->(m:Movie)
+where m.title = 'Forrest Gump'
+return p.name, rel.roles
 ```
 <br/>
 
 > Exercise 9.10: Retrieve information about any specific relationships.
 
 ```
-
+match (p1:Person)-[rel:HELPED]-(p2:Person)
+return p1.name, rel, p2.name
 ```
 <br/>
 
 > Exercise 9.11: Modify a property of a relationship.
 
 ```
-
+match (p:Person)-[rel:ACTED_IN]->(m:Movie)
+where m.title = 'Forrest Gump' and p.name = 'Gary Sinise'
+set rel.roles =['Lt. Dan Taylor']
 ```
 <br/>
 
 > Exercise 9.12: Remove a property from a relationship.
 
 ```
-
+match (p1:Person)-[rel:HELPED]->(p2:Person)
+where p1.name = 'Tom Hanks' and p2.name = 'Gary Sinise'
+remove rel.research
 ```
 <br/>
 
 > Exercise Exercise 9.13: Confirm that your modifications were made to the graph.
 
 ```
-
+match (p:Person)-[rel:ACTED_IN]->(m:Movie)
+where m.title = 'Forrest Gump'
+return p, rel, m
 ```
 <br/>
 
@@ -594,41 +682,51 @@ return distinct m.released, m.title, collect(a.name)
 > Exercise 10.1: Delete a relationship.
 
 ```
-
+match (:Person)-[rel:HELPED]-(:Person)
+delete rel
 ```
 <br/>
 
 > Exercise 10.2: Confirm that the relationship has been deleted.
 
 ```
-
+match (:Person)-[rel:HELPED]-(:Person)
+return rel
 ```
 <br/>
 
 > Exercise 10.3: Retrieve a movie and all of its relationships.
 
 ```
-
+match (p:Person)-[rel]-(m:Movie)
+where m.title = 'Forrest Gump'
+return p, rel, m
 ```
 <br/>
 
 > Exercise 10.4: Try deleting a node without detaching its relationships.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+delete m
 ```
 <br/>
 
 > Exercise 10.5: Delete a Movie node, along with its relationships.
 
 ```
-
+match (m:Movie)
+where m.title = 'Forrest Gump'
+detach delete m
 ```
 <br/>
 
 > Exercise 10.6: Confirm that the Movie node has been deleted.
 
 ```
-
+match (p:Person)-[rel]-(m:Movie)
+where m.title = 'Forrest Gump'
+return p, rel, m
 ```
 <br/>
