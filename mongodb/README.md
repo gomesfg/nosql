@@ -16,11 +16,12 @@ db.pets.insert({name: "Mike", species: "Cachorro"})
 db.pets.insert({name: "Sally", species: "Cachorro"})
 db.pets.insert({name: "Chuck", species: "Gato"})
 ```
+<br/>
 
 > 1. Adicione outro Peixe e um Hamster com nome Frodo
 
 ```
-match (n) return (n)
+//
 ```
 <br/>
 
@@ -81,6 +82,9 @@ Importe o arquivo dos italian-people.js do seguinte endereço: Downloads NoSQL F
 mongo italian-people.js
 ```
 
+Analise um pouco a estrutura dos dados e em seguida responda:
+<br/>
+
 > 1. Liste/Conte todas as pessoas que tem exatamente 99 anos. Você pode usar um count para indicar a quantidade.
 
 ```
@@ -88,691 +92,233 @@ MATCH (m:Movie {released: 1999}) RETURN m
 ```
 <br/>
 
-> Exercise 2.2: View the retrieved results as a table.
+> 2. Identifique quantas pessoas são elegíveis atendimento prioritário (pessoas com mais de 65 anos)
 
 ```
 MATCH (m:Movie {released: 1999}) RETURN m.title,m.released
 ```
 <br/>
 
-> Exercise 2.3: Query the database for all property keys
+> 3. Identifique todos os jovens (pessoas entre 12 a 18 anos).
 
 ```
 call db.propertyKeys
 ```
 <br/>
 
-> Exercise 2.4: Retrieve all Movies released in a specific year, returning their titles.
+> 4. Identifique quantas pessoas tem gatos, quantas tem cachorro e quantas não tem nenhum dos dois
 
 ```
 MATCH (m:Movie {released: 1999}) RETURN m.title
 ```
 <br/>
 
-> Exercise 2.5: Display title, released, and tagline values for every Movie node in the graph.
+> 5. Liste/Conte todas as pessoas acima de 60 anos que tenham gato
 
 ```
 MATCH (m:Movie) RETURN m.title,m.released,m.tagline
 ```
 <br/>
 
-> Exercise 2.6: Display more user-friendly headers in the table
+> 6. Liste/Conte todos os jovens com cachorro
 
 ```
 MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
 ```
 <br/>
 
-### Exercício 3 - Filtering queries using relationships
+> 7. Utilizando o $where, liste todas as pessoas que tem gato e cachorro
 
-> Exercise 3.1: Display the schema of the database.
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 8. Liste todas as pessoas mais novas que seus respectivos gatos.
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 9. Liste as pessoas que tem o mesmo nome que seu bichano (gatou ou cachorro)
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 10. Projete apenas o nome e sobrenome das pessoas com tipo de sangue de fator RH negativo
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 11. Projete apenas os animais dos italianos. Devem ser listados os animais com nome e idade. Não mostre o identificado do mongo (ObjectId)
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 12. Quais são as 5 pessoas mais velhas com sobrenome Rossi?
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 13. Crie um italiano que tenha um leão como animal de estimação. Associe um nome e idade ao bichano
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 14. Infelizmente o Leão comeu o italiano. Remova essa pessoa usando o Id.
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 15. Passou um ano. Atualize a idade de todos os italianos e dos bichanos em 1.
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 16. O Corona Vírus chegou na Itália e misteriosamente atingiu pessoas somente com gatos e de 66 anos. Remova esses italianos.
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 17. Utilizando o framework agregate, liste apenas as pessoas com nomes iguais a sua respectiva mãe e que tenha gato ou cachorro.
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 18. Utilizando aggregate framework, faça uma lista de nomes única de nomes. Faça isso usando apenas o primeiro nome
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 19. Agora faça a mesma lista do item acima, considerando nome completo
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+> 20. Procure pessoas que gosta de Banana ou Maçã, tenham cachorro ou gato, mais de 20 e menos de 60 anos.
+
+```
+MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+```
+<br/>
+
+### Exercício 3 - Stockbrokers
+
+Importe o arquivo stocks.json do repositório Downloads NoSQL FURB. Esses dados são dados reais da bolsa americana de 2015. A importação do arquivo JSON é um pouco diferente da execução de um script:
+
+```
+mongoimport --db stocks --collection stocks --file stocks.json
+```
+
+Analise um pouco a estrutura dos dados novamente e em seguida, responda as seguintes perguntas:
+<br/>
+
+> 1. Liste as ações com profit acima de 0.5 (limite a 10 o resultado)
 
 ```
 // Não consegui fazer
 ```
 <br/>
 
-> Exercise 3.2: Retrieve all people who wrote the movie Speed Racer.
+> 2. Liste as ações com perdas (limite a 10 novamente)
 
 ```
 match (p:Person)-[:WROTE]->(:Movie {title: 'Speed Racer'}) return p.name
 ```
 <br/>
 
-> Exercise 3.3: Retrieve all movies that are connected to the person, Tom Hanks.
+> 3. Liste as 10 ações mais rentáveis 
 
 ```
 match (m:Movie)<--(:Person {name: 'Tom Hanks'}) return m.title
 ```
 <br/>
 
-> Exercise 3.4: Retrieve information about the relationships Tom Hanks had with the set of movies retrieved earlier.
+> 4. Qual foi o setor mais rentável?
 
 ```
 match (m:Movie)-[rel]-(:Person {name: 'Tom Hanks'}) return m.title, type(rel)
 ```
 <br/>
 
-> Exercise 3.5: Retrieve information about the roles that Tom Hanks acted in.
+> 5. Ordene as ações pelo profit e usando um cursor, liste as ações.
 
 ```
 match (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) return m.title, rel.roles
 ```
 <br/>
 
-### Exercício 4 - Filtering queries using WHERE clause
+> 6. Renomeie o campo “Profit Margin” para apenas “profit”.
 
-> Exercise 4.1: Retrieve all movies that Tom Cruise acted in
+```
+match (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) return m.title, rel.roles
+```
+<br/>
+
+> 7. Agora liste apenas a empresa e seu respectivo resultado
+
+```
+match (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) return m.title, rel.roles
+```
+<br/>
+
+> 8. Analise as ações. É uma bola de cristal na sua mão... Quais as três ações você investiria?
+
+```
+match (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) return m.title, rel.roles
+```
+<br/>
+
+> 9. Liste as ações agrupadas por setor
+
+```
+match (m:Movie)-[rel:ACTED_IN]-(:Person {name: 'Tom Hanks'}) return m.title, rel.roles
+```
+<br/>
+
+### Exercício 4 - Fraude na Enron!
+
+Um dos casos mais emblemáticos de fraude no mundo é o caso da Enron. A comunicade do MongoDB utiliza muito esse dataset pois o mesmo se tornou público, então vamos importar esse material também:
+
+```
+mongoimport --db stocks --collection stocks --file
+enron.json
+```
+<br/>
+
+> 1. Liste as pessoas que enviaram e-mails (de forma distinta, ou seja, sem repetir). Quantas pessoas são?
 
 ```
 match (a:Person)-[:ACTED_IN]->(m:Movie) where a.name = 'Tom Cruise' return m.title as Filme
 ```
 <br/>
 
-> Exercise 4.2: Retrieve all people that were born in the 70’s.
+> 2. Contabilize quantos e-mails tem a palavra “fraud”
 
 ```
 match (a:Person) where a.born >= 1970 and a.born < 1980 return a.name as Nome, a.born as `Data Nascimento`
-```
-<br/>
-
-> Exercise 4.3: Retrieve the actors who acted in the movie The Matrix who were born after 1960.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie) where a.born > 1960 and m.title = 'The Matrix' return a.name as Nome, a.born as `Ano Nascimento`
-```
-<br/>
-
-> Exercise Exercise 4.4: Retrieve all movies by testing the node label and a property
-
-```
-match (m) where m:Movie and m.released = 2000 return m.title
-```
-<br/>
-
-> Exercise 4.5: Retrieve all people that wrote movies by testing the relationship between two nodes.
-
-```
-match (a)-[rel]->(m) where a:Person and type(rel) = 'WROTE' and m:Movie return a.name as Nome, m.title as Filme
-```
-<br/>
-
-> Exercise 4.6: Retrieve all people in the graph that do not have a property.
-
-```
-match (a:Person) where not exists(a.born) return a.name as Nome
-```
-<br/>
-
-> Exercise 4.7: Retrieve all people related to movies where the relationship has a property
-
-```
-match (a:Person)-[rel]->(m:Movie) where exists(rel.rating) return a.name as Nome, m.title as Filme, rel.rating as Nota
-```
-<br/>
-
-> Exercise 4.8: Retrieve all actors whose name begins with James.
-
-```
-match (a:Person)-[:ACTED_IN]->(:Movie) where a.name starts with 'James' return a.name
-```
-<br/>
-
-> Exercise 4.9: Retrieve all all REVIEW relationships from the graph with filtered results.
-
-```
-match (:Person)-[r:REVIEWED]->(m:Movie) where toLower(r.summary) contains 'football' return m.title as Filme, r.summary as Revisao, r.rating as Nota
-```
-<br/>
-
-> Exercise 4.10: Retrieve all people who have produced a movie, but have not directed a movie
-
-```
-match (a:Person)-[:PRODUCED]->(m:Movie) where not ((a)-[:DIRECTED]->(:Movie)) return a.name, m.title
-```
-<br/>
-
-> Exercise 4.11: Retrieve the movies and their actors where one of the actors also directed the movie.
-
-```
-match (a1:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(a2:Person) where exists( (a2)-[:DIRECTED]->(m) ) return  a1.name as Ator, a2.name as `Ator/Diretor`, m.title as Filme
-```
-<br/>
-
-> Exercise 4.12: Retrieve all movies that were released in a set of years.
-
-```
-match (m:Movie) where m.released in [1999, 2000, 2003] return m.title, m.released
-```
-<br/>
-
-> Exercise 4.13: Retrieve the movies that have an actor’s role that is the name of the movie.
-
-```
-match (a:Person)-[r:ACTED_IN]->(m:Movie) where m.title in r.roles return  m.title as Filme, a.name as Ator
-```
-<br/>
-
-### Exercício 5 - Controlling query processing
-
-> Exercise 5.1: Retrieve data using multiple MATCH patterns
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),(a2:Person)-[:ACTED_IN]->(m) where a.name = 'Gene Hackman' return m.title as Filme, d.name AS Diretor , a2.name AS `Atores`
-```
-<br/>
-
-> Exercise 5.2: Retrieve particular nodes that have a relationship
-
-```
-match (p1:Person)-[:FOLLOWS]-(p2:Person) where p1.name = 'James Thompson' return p1, p2
-```
-<br/>
-
-> Exercise 5.3: Modify the query to retrieve nodes that are exactly three hops away.
-
-```
-match (p1:Person)-[:FOLLOWS*3]-(p2:Person) where p1.name = 'James Thompson' return p1, p2
-```
-<br/>
-
-> Exercise 5.4: Modify the query to retrieve nodes that are one and two hops away.
-
-```
-match (p1:Person)-[:FOLLOWS*1..2]-(p2:Person) where p1.name = 'James Thompson' return p1, p2
-```
-<br/>
-
-> Exercise 5.5: Modify the query to retrieve particular nodes that are connected no matter how many hops are required
-
-```
-match (p1:Person)-[:FOLLOWS*]-(p2:Person) where p1.name = 'James Thompson' return p1, p2
-```
-<br/>
-
-> Exercise 5.6: Specify optional data to be retrieved during the query.
-
-```
-match (p:Person) where p.name starts with 'Tom' optional match (p)-[:DIRECTED]->(m:Movie) return p.name, m.title
-```
-<br/>
-
-> Exercise 5.7: Retrieve nodes by collecting a list.
-
-```
-match (p:Person)-[:ACTED_IN]->(m:Movie) return p.name as Ator, collect(m.title) AS `Lista de Filmes`
-```
-<br/>
-
-> Exercise 5.9: Retrieve nodes as lists and return data associated with the corresponding lists
-
-```
-match (p:Person)-[:REVIEWED]->(m:Movie) return m.title as Filme, count(p) as `Número de Revisões`, collect(p.name) as Criticos
-```
-<br/>
-
-> Exercise 5.10: Retrieve nodes and their relationships as lists.
-
-```
-match (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
-return d.name AS Diretor, count(a) AS `Número Atores` , collect(a.name) AS `Trabalhou com os atores`
-```
-<br/>
-
-> Exercise 5.11: Retrieve the actors who have acted in exactly five movies.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie) 
-with  a, count(a) AS numeroFilmes, collect(m.title) AS Filmes 
-where numeroFilmes = 5 return a.name, Filmes
-```
-<br/>
-
-> Exercise Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data.
-
-```
-match (m:Movie) 
-with m, size((:Person)-[:DIRECTED]->(m)) as Diretores 
-where Diretores >= 2 
-optional match (p:Person)-[:REVIEWED]->(m) return  m.title, p.name
-```
-<br/>
-
-### Exercício 6 - Controlling results returned
-
-> Exercise 6.1: Execute a query that returns duplicate records.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie)
-where m.released >= 1990 AND m.released < 2000
-return distinct m.released, m.title, collect(a.name)
-```
-<br/>
-
-> Exercise 6.2: Modify the query to eliminate duplication.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie)
-where m.released >= 1990 AND m.released < 2000
-return  m.released, collect(m.title), collect(a.name)
-```
-<br/>
-
-> Exercise 6.3: Modify the query to eliminate more duplication.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie)
-where m.released >= 1990 AND m.released < 2000
-return  m.released, collect(DISTINCT m.title), collect(a.name)
-```
-<br/>
-
-> Exercise 6.4: Sort results returned.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie)
-where m.released >= 1990 AND m.released < 2000
-return  m.released, collect(DISTINCT m.title), collect(a.name)
-order by m.released desc
-```
-<br/>
-
-> Exercise 6.5: Retrieve the top 5 ratings and their associated movies.
-
-```
-match (:Person)-[r:REVIEWED]->(m:Movie)
-return  m.title as Filme, r.rating as Nota 
-order by r.rating desc limit 5
-```
-<br/>
-
-> Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie)
-with a, count(a) as numeroFilmes, collect(m.title) as Filmes
-where numeroFilmes <= 3
-return a.name, Filmes
-```
-<br/>
-
-### Exercício 7 - Working with cypher data
-
-> Exercise 7.1: Collect and use lists
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie),(m)<-[:PRODUCED]-(p:Person)
-with m, collect(distinct a.name) as Elenco, collect(distinct p.name) as Produtores
-return distinct m.title, Elenco, Produtores
-order by size(Elenco)
-```
-<br/>
-
-> Exercise 7.2: Collect a list
-
-```
-match (p:Person)-[:ACTED_IN]->(m:Movie)
-with p, collect(m) as Filmes
-where size(Filmes)  > 5
-return p.name, Filmes
-```
-<br/>
-
-> Exercise 7.3: Unwind a list
-
-```
-match (p:Person)-[:ACTED_IN]->(m:Movie)
-with p, collect(m) as Filmes
-where size(Filmes) > 5
-with p, Filmes unwind Filmes AS Filme
-return p.name, Filme.title
-```
-<br/>
-
-> Exercise 7.4: Perform a calculation with the date type.
-
-```
-match (a:Person)-[:ACTED_IN]->(m:Movie)
-where a.name = 'Tom Hanks'
-return  m.title, m.released, date().year - m.released as lancadoAnosAtras, m.released - a.born as `Idade do Tom`
-order by lancadoAnosAtras
-```
-<br/>
-
-### Exercício 8 - Creating nodes
-
-> Exercise 8.1: Create a Movie node.
-
-```
-create (:Movie {title: 'Forrest Gump'})
-```
-<br/>
-
-> Exercise 8.2: Retrieve the newly-created node.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-return m
-```
-<br/>
-
-> Exercise 8.3: Create a Person node.
-
-```
-create (:Person {name: 'Robin Wright'})
-```
-<br/>
-
-> Exercise 8.4: Retrieve the newly-created node.
-
-```
-match (p:Person)
-where p.name = 'Robin Wright'
-return p
-```
-<br/>
-
-> Exercise 8.5: Add a label to a node.
-
-```
-match (m:Movie)
-where m.released < 2010
-set m:OlderMovie
-return distinct labels(m)
-```
-<br/>
-
-> Exercise 8.6: Retrieve the node using the new label.
-
-```
-match (m:OlderMovie)
-return m.title, m.released
-```
-<br/>
-
-> Exercise 8.7: Add the Female label to selected nodes.
-
-```
-match (p:Person)
-where p.name starts with 'Robin'
-set p:Female
-```
-<br/>
-
-> Exercise 8.8: Retrieve all Female nodes.
-
-```
-match (p:Female)
-return p.name
-```
-<br/>
-
-> Exercise Exercise 8.9: Remove the Female label from the nodes that have this label.
-
-```
-match (p:Female)
-remove p:Female
-```
-<br/>
-
-> Exercise 8.10: View the current schema of the graph.
-
-```
-// Não consegui fazer
-```
-<br/>
-
-> Exercise 8.11: Add properties to a movie.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-set m:OlderMovie,
-    m.released = 1994,
-    m.tagline = "Life is like a box of chocolates...you never know what you're gonna get.",
-    m.lengthInMinutes = 142
-```
-<br/>
-
-> Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties.
-
-```
-match (m:OlderMovie)
-where m.title = 'Forrest Gump'
-return m
-```
-<br/>
-
-> Exercise 8.13: Add properties to the person, Robin Wright.
-
-```
-match (p:Person)
-where p.name = 'Robin Wright'
-set p.born = 1966, p.birthPlace = 'Dallas'
-```
-<br/>
-
-> Exercise 8.14: Retrieve an updated Person node.
-
-```
-match (p:Person)
-where p.name = 'Robin Wright'
-return p
-```
-<br/>
-
-> Exercise 8.15: Remove a property from a Movie node.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-set m.lengthInMinutes = null
-```
-<br/>
-
-> Exercise 8.16: Retrieve the node to confirm that the property has been removed.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-return m
-```
-<br/>
-
-> Exercise 8.17: Remove a property from a Person node.
-
-```
-match (p:Person)
-where p.name = 'Robin Wright'
-remove p.birthPlace
-```
-<br/>
-
-> Exercise 8.18: Retrieve the node to confirm that the property has been removed.
-
-```
-match (p:Person)
-where p.name = 'Robin Wright'
-return p
-```
-<br/>
-
-### Exercício 9 - Creating relationships
-
-> Exercise 9.1: Create ACTED_IN relationships.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-match (p:Person)
-where p.name = 'Tom Hanks' or p.name = 'Robin Wright' or p.name = 'Gary Sinise'
-create (p)-[:ACTED_IN]->(m)
-```
-<br/>
-
-> Exercise 9.2: Create DIRECTED relationships.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-match (p:Person)
-where p.name = 'Robert Zemeckis'
-create (p)-[:DIRECTED]->(m)
-```
-<br/>
-
-> Exercise 9.3: Create a HELPED relationship.
-
-```
-match (p1:Person)
-where p1.name = 'Tom Hanks'
-match (p2:Person)
-where p2.name = 'Gary Sinise'
-create (p1)-[:HELPED]->(p2)
-```
-<br/>
-
-> Exercise 9.4: Query nodes and new relationships.
-
-```
-match (p:Person)-[rel]-(m:Movie)
-where m.title = 'Forrest Gump'
-return p, rel, m
-```
-<br/>
-
-> Exercise 9.5: Add properties to relationships.
-
-```
-match (p:Person)-[rel:ACTED_IN]->(m:Movie)
-where m.title = 'Forrest Gump'
-set rel.roles =
-case p.name
-  when 'Tom Hanks' then ['Forrest Gump']
-  when 'Robin Wright' then ['Jenny Curran']
-  when 'Gary Sinise' then ['Lieutenant Dan Taylor']
-end
-```
-<br/>
-
-> Exercise 9.6: Add a property to the HELPED relationship.
-
-```
-match (p1:Person)-[rel:HELPED]->(p2:Person)
-where p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
-set rel.research = 'war history'
-```
-<br/>
-
-> Exercise 9.7: View the current list of property keys in the graph.
-
-```
-call db.propertyKeys
-```
-<br/>
-
-> Exercise 9.8: View the current schema of the graph.
-
-```
-// Não consegui fazer
-```
-<br/>
-
-> Exercise 9.9: Retrieve the names and roles for actors.
-
-```
-match (p:Person)-[rel:ACTED_IN]->(m:Movie)
-where m.title = 'Forrest Gump'
-return p.name, rel.roles
-```
-<br/>
-
-> Exercise 9.10: Retrieve information about any specific relationships.
-
-```
-match (p1:Person)-[rel:HELPED]-(p2:Person)
-return p1.name, rel, p2.name
-```
-<br/>
-
-> Exercise 9.11: Modify a property of a relationship.
-
-```
-match (p:Person)-[rel:ACTED_IN]->(m:Movie)
-where m.title = 'Forrest Gump' and p.name = 'Gary Sinise'
-set rel.roles =['Lt. Dan Taylor']
-```
-<br/>
-
-> Exercise 9.12: Remove a property from a relationship.
-
-```
-match (p1:Person)-[rel:HELPED]->(p2:Person)
-where p1.name = 'Tom Hanks' and p2.name = 'Gary Sinise'
-remove rel.research
-```
-<br/>
-
-> Exercise Exercise 9.13: Confirm that your modifications were made to the graph.
-
-```
-match (p:Person)-[rel:ACTED_IN]->(m:Movie)
-where m.title = 'Forrest Gump'
-return p, rel, m
-```
-<br/>
-
-### Exercício 10 - Deleting nodes and relationships
-
-> Exercise 10.1: Delete a relationship.
-
-```
-match (:Person)-[rel:HELPED]-(:Person)
-delete rel
-```
-<br/>
-
-> Exercise 10.2: Confirm that the relationship has been deleted.
-
-```
-match (:Person)-[rel:HELPED]-(:Person)
-return rel
-```
-<br/>
-
-> Exercise 10.3: Retrieve a movie and all of its relationships.
-
-```
-match (p:Person)-[rel]-(m:Movie)
-where m.title = 'Forrest Gump'
-return p, rel, m
-```
-<br/>
-
-> Exercise 10.4: Try deleting a node without detaching its relationships.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-delete m
-```
-<br/>
-
-> Exercise 10.5: Delete a Movie node, along with its relationships.
-
-```
-match (m:Movie)
-where m.title = 'Forrest Gump'
-detach delete m
-```
-<br/>
-
-> Exercise 10.6: Confirm that the Movie node has been deleted.
-
-```
-match (p:Person)-[rel]-(m:Movie)
-where m.title = 'Forrest Gump'
-return p, rel, m
 ```
 <br/>
