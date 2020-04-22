@@ -21,56 +21,96 @@ db.pets.insert({name: "Chuck", species: "Gato"})
 > 1. Adicione outro Peixe e um Hamster com nome Frodo
 
 ```
-//
+db.pets.insert({name: "Frodo", species: "Peixe"})
+db.pets.insert({name: "Frodo", species: "Hamster"})
+```
+```
+WriteResult({ "nInserted" : 1 })
+WriteResult({ "nInserted" : 1 })
 ```
 <br/>
 
 > 2. Faça uma contagem dos pets na coleção
 
 ```
-// Não consegui fazer
+db.pets.find().count();
+```
+```
+8
 ```
 <br/>
 
 > 3. Retorne apenas um elemento o método prático possível
 
 ```
-match (p:Person) return (p)
+db.pets.findOne();
+```
+```
+{
+        "_id" : ObjectId("5e9e1847703c20aad44c15c6"),
+        "name" : "Mike",
+        "species" : "Hamster"
+}
 ```
 <br/>
 
 > 4. Identifique o ID para o Gato Kilha.
 
 ```
-match (m:Movie) return (m)
+db.pets.findOne({name: "Kilha", species: "Gato"}, {"_id":1});
+```
+```
+{ "_id" : ObjectId("5e9e1847703c20aad44c15c8") }
 ```
 <br/>
 
 > 5. Faça uma busca pelo ID e traga o Hamster Mike
 
 ```
-match (m:Movie) return (m)
+db.pets.findOne({_id: ObjectId("5e9e1847703c20aad44c15c6")});
+```
+```
+{
+        "_id" : ObjectId("5e9e1847703c20aad44c15c6"),
+        "name" : "Mike",
+        "species" : "Hamster"
+}
 ```
 <br/>
 
 > 6. Use o find para trazer todos os Hamsters
 
 ```
-match (m:Movie) return (m)
+db.pets.find({species: "Hamster"});
+```
+```
+{ "_id" : ObjectId("5e9e1847703c20aad44c15c6"), "name" : "Mike", "species" : "Hamster" }
+{ "_id" : ObjectId("5e9f916d703c20aad44c15cd"), "name" : "Frodo", "species" : "Hamster" }
 ```
 <br/>
 
 > 7. Use o find para listar todos os pets com nome Mike
 
 ```
-match (m:Movie) return (m)
+db.pets.find({name: "Mike"});
+```
+```
+{ "_id" : ObjectId("5e9e1847703c20aad44c15c6"), "name" : "Mike", "species" : "Hamster" }
+{ "_id" : ObjectId("5e9e1847703c20aad44c15c9"), "name" : "Mike", "species" : "Cachorro" }
 ```
 <br/>
 
 > 8. Liste apenas o documento que é um Cachorro chamado Mike
 
 ```
-match (m:Movie) return (m)
+db.pets.findOne({name: "Mike", species: "Cachorro"});
+```
+```
+{
+        "_id" : ObjectId("5e9e1847703c20aad44c15c9"),
+        "name" : "Mike",
+        "species" : "Cachorro"
+}
 ```
 <br/>
 
