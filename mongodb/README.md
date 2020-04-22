@@ -128,7 +128,10 @@ Analise um pouco a estrutura dos dados e em seguida responda:
 > 1. Liste/Conte todas as pessoas que tem exatamente 99 anos. Você pode usar um count para indicar a quantidade.
 
 ```
-MATCH (m:Movie {released: 1999}) RETURN m
+db.italians.count({age: 99}); 
+```
+```
+0
 ```
 <br/>
 
