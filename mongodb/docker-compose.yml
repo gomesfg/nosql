@@ -1,0 +1,9 @@
+version: "3.7"
+
+services: 
+    mongo-server:
+        image: mongo:latest
+        volumes:
+            - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+        ports:
+            - "27017:27017"
