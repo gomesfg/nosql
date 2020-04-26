@@ -180,14 +180,20 @@ db.italians.count({"$and":[{"dog" : {$exists:false}, "cat" : {$exists:false}}]})
 > 5. Liste/Conte todas as pessoas acima de 60 anos que tenham gato
 
 ```
-MATCH (m:Movie) RETURN m.title,m.released,m.tagline
+db.italians.count({"$and":[{"age" : {"$gte" : 60}, "cat" : {$exists:true}}]});
+```
+```
+1554
 ```
 <br/>
 
 > 6. Liste/Conte todos os jovens com cachorro
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.count({"$and":[{"age" : {"$gte" : 12, "$lte" : 18}, "dog" : {$exists:true}}]});
+```
+```
+364
 ```
 <br/>
 
