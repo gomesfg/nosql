@@ -138,21 +138,42 @@ db.italians.count({age: 99});
 > 2. Identifique quantas pessoas são elegíveis atendimento prioritário (pessoas com mais de 65 anos)
 
 ```
-MATCH (m:Movie {released: 1999}) RETURN m.title,m.released
+db.italians.count({"age" : {"$gte" : 65}})
+```
+```
+1917
 ```
 <br/>
 
 > 3. Identifique todos os jovens (pessoas entre 12 a 18 anos).
 
 ```
-call db.propertyKeys
+db.italians.count({"age" : {"$gte" : 12, "$lte" : 18}})
+```
+```
+904
 ```
 <br/>
 
 > 4. Identifique quantas pessoas tem gatos, quantas tem cachorro e quantas não tem nenhum dos dois
 
 ```
-MATCH (m:Movie {released: 1999}) RETURN m.title
+db.italians.count({"cat" : {$exists:true}});
+```
+```
+6025
+```
+```
+db.italians.count({"dog" : {$exists:true}});
+```
+```
+3933
+```
+```
+db.italians.count({"$and":[{"dog" : {$exists:false}, "cat" : {$exists:false}}]});
+```
+```
+2411
 ```
 <br/>
 
