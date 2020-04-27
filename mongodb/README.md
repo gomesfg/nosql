@@ -751,4 +751,3 @@ db.enron.find({text: {$regex: ".*fraud.*"}}).count()
 ```
 23
 ```
-<br/>
