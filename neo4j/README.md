@@ -729,4 +729,3 @@ match (p:Person)-[rel]-(m:Movie)
 where m.title = 'Forrest Gump'
 return p, rel, m
 ```
-<br/>
