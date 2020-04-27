@@ -4,4 +4,4 @@ services:
     hbase-server:
         image: dajobe/hbase
         volumes:
-            - "./hbase-seed:/hbase-seed" 
+            - "./hbase-seed:/hbase-seed"
