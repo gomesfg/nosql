@@ -200,77 +200,175 @@ db.italians.count({"$and":[{"age" : {"$gte" : 12, "$lte" : 18}, "dog" : {$exists
 > 7. Utilizando o $where, liste todas as pessoas que tem gato e cachorro
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.count({$where:"this.dog && this.cat"});
+```
+```
+2369
 ```
 <br/>
 
 > 8. Liste todas as pessoas mais novas que seus respectivos gatos.
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.count({$expr : {$lt: ['$age', '$cat.age']}})
+```
+```
+599
 ```
 <br/>
 
 > 9. Liste as pessoas que tem o mesmo nome que seu bichano (gatou ou cachorro)
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.count({$where: "(this.cat && this.cat.name == this.firstname) || (this.dog && this.dog.name == this.firstname)"})
+```
+```
+102
 ```
 <br/>
 
 > 10. Projete apenas o nome e sobrenome das pessoas com tipo de sangue de fator RH negativo
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.find({bloodType: {$regex:/\-$/}}, {firstname:1, surname:1, bloodType:1})
+```
+```
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3454"), "firstname" : "Sonia", "surname" : "Gallo", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3455"), "firstname" : "Mattia", "surname" : "Carbone", "bloodType" : "O-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3457"), "firstname" : "Giorgia", "surname" : "Costa", "bloodType" : "A-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3458"), "firstname" : "Anna", "surname" : "De Angelis", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e345a"), "firstname" : "Daniela", "surname" : "Lombardo", "bloodType" : "O-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e345c"), "firstname" : "Alessandro", "surname" : "Ferrari", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e345d"), "firstname" : "Sergio", "surname" : "Rizzi", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e345e"), "firstname" : "Fabrizio", "surname" : "Montanari", "bloodType" : "O-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e345f"), "firstname" : "Nicola", "surname" : "Rinaldi", "bloodType" : "O-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3461"), "firstname" : "Stefano", "surname" : "Rossi", "bloodType" : "AB-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3463"), "firstname" : "Serena", "surname" : "Gallo", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3465"), "firstname" : "Stefano", "surname" : "Testa", "bloodType" : "A-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3467"), "firstname" : "Ilaria", "surname" : "Parisi", "bloodType" : "AB-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e346a"), "firstname" : "Roberto", "surname" : "Sanna", "bloodType" : "O-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e346c"), "firstname" : "Giovanni", "surname" : "Vitali", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e346d"), "firstname" : "Claudio", "surname" : "Lombardi", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3471"), "firstname" : "Claudia", "surname" : "Carbone", "bloodType" : "AB-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e3477"), "firstname" : "Federico", "surname" : "Ricci", "bloodType" : "B-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e347a"), "firstname" : "Federica", "surname" : "Caruso", "bloodType" : "AB-" }
+{ "_id" : ObjectId("5ea5956d8a24bd0f931e347b"), "firstname" : "Ilaria", "surname" : "Testa", "bloodType" : "A-" }
+Type "it" for more
 ```
 <br/>
 
-> 11. Projete apenas os animais dos italianos. Devem ser listados os animais com nome e idade. Não mostre o identificado do mongo (ObjectId)
+> 11. Projete apenas os animais dos italianos. Devem ser listados os animais com nome e idade. Não mostre o identificador do mongo (ObjectId)
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.find({$where: "(this.cat && this.dog)"},{"cat.name":1,"cat.age":1,"dog.name":1,"dog.age":1,_id:0})
+```
+```
+{ "cat" : { "name" : "Massimiliano", "age" : 15 }, "dog" : { "name" : "Luca", "age" : 1 } }
+{ "cat" : { "name" : "Elena", "age" : 15 }, "dog" : { "name" : "Antonella", "age" : 0 } }
+{ "cat" : { "name" : "Cinzia", "age" : 9 }, "dog" : { "name" : "Daniela", "age" : 17 } }
+{ "cat" : { "name" : "Patrizia", "age" : 15 }, "dog" : { "name" : "Claudio", "age" : 11 } }
+{ "cat" : { "name" : "Maurizio", "age" : 5 }, "dog" : { "name" : "Alex", "age" : 4 } }
+{ "cat" : { "name" : "Giovanni", "age" : 0 }, "dog" : { "name" : "Elisabetta", "age" : 0 } }
+{ "cat" : { "name" : "Emanuele", "age" : 17 }, "dog" : { "name" : "Anna", "age" : 14 } }
+{ "cat" : { "name" : "Michela", "age" : 11 }, "dog" : { "name" : "Valentina", "age" : 0 } }
+{ "cat" : { "name" : "Gianluca", "age" : 17 }, "dog" : { "name" : "Antonella", "age" : 10 } }
+{ "cat" : { "name" : "Riccardo", "age" : 2 }, "dog" : { "name" : "Michele", "age" : 9 } }
+{ "cat" : { "name" : "Raffaele", "age" : 11 }, "dog" : { "name" : "Mirko", "age" : 0 } }
+{ "cat" : { "name" : "Alberto", "age" : 12 }, "dog" : { "name" : "Martina", "age" : 9 } }
+{ "cat" : { "name" : "Lorenzo", "age" : 13 }, "dog" : { "name" : "Alessandra", "age" : 6 } }
+{ "cat" : { "name" : "Daniele", "age" : 0 }, "dog" : { "name" : "Stefania", "age" : 11 } }
+{ "cat" : { "name" : "Raffaele", "age" : 5 }, "dog" : { "name" : "Maurizio", "age" : 9 } }
+{ "cat" : { "name" : "Enzo ", "age" : 9 }, "dog" : { "name" : "Paola", "age" : 10 } }
+{ "cat" : { "name" : "Eleonora", "age" : 5 }, "dog" : { "name" : "Maria", "age" : 5 } }
+{ "cat" : { "name" : "Matteo", "age" : 5 }, "dog" : { "name" : "Antonio", "age" : 13 } }
+{ "cat" : { "name" : "Cristina", "age" : 11 }, "dog" : { "name" : "Giovanna", "age" : 2 } }
+{ "cat" : { "name" : "Giovanna", "age" : 1 }, "dog" : { "name" : "Pasquale", "age" : 3 } }
+Type "it" for more
 ```
 <br/>
 
 > 12. Quais são as 5 pessoas mais velhas com sobrenome Rossi?
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.find({surname:'Rossi'}).sort({age:-1}).limit(5)
+```
+```
+{ "_id" : ObjectId("5ea5956f8a24bd0f931e3a18"), "firstname" : "Marco", "surname" : "Rossi", "username" : "user1576", "age" : 79, "email" : "Marco.Rossi@hotmail.com", "bloodType" : "B-", "id_num" : "827011132132", "registerDate" : ISODate("2010-08-01T23:20:25.609Z"), "ticketNumber" : 398, "jobs" : [ "Luteria" ], "favFruits" : [ "Goiaba", "Melancia" ], "movies" : [ { "title" : "O Senhor dos Anéis: As Duas Torres (2002)", "rating" : 0.58 } ], "cat" : { "name" : "Elena", "age" : 7 } }
+{ "_id" : ObjectId("5ea595738a24bd0f931e4319"), "firstname" : "Martina", "surname" : "Rossi", "username" : "user3881", "age" : 79, "email" : "Martina.Rossi@live.com", "bloodType" : "A-", "id_num" : "315626715631", "registerDate" : ISODate("2010-04-22T02:11:31.371Z"), "ticketNumber" : 4499, "jobs" : [ "Engenharia de Produção", "Educação Física" ], "favFruits" : [ "Maçã" ], "movies" : [ { "title" : "O Senhor dos Anéis: A Sociedade do Anel (2001)", "rating" : 1.85 }, { "title" : "A Origem (2010)", "rating" : 3.66 } ], "cat" : { "name" : "Gabiele", "age" : 14 } }
+{ "_id" : ObjectId("5ea595718a24bd0f931e3f75"), "firstname" : "Simone", "surname" : "Rossi", "username" : "user2949", "age" : 78, "email" : "Simone.Rossi@uol.com.br", "bloodType" : "A-", "id_num" : "164265050727", "registerDate" : ISODate("2014-07-23T19:08:04.762Z"), "ticketNumber" : 9279, "jobs" : [ "Produção Publicitária", "Engenharia da Computação" ], "favFruits" : [ "Banana" ], "movies" : [ { "title" : "A Lista de Schindler (1993)", "rating" : 1.25 }, { "title" : "Os Bons Companheiros (1990)", "rating" : 2.85 }, { "title" : "A Vida é Bela (1997)", "rating" : 3.76 } ] }
+{ "_id" : ObjectId("5ea595768a24bd0f931e4a64"), "firstname" : "Cristian", "surname" : "Rossi", "username" : "user5748", "age" : 78, "email" : "Cristian.Rossi@gmail.com", "bloodType" : "AB-", "id_num" : "648844077067", "registerDate" : ISODate("2016-10-05T12:57:32.805Z"), "ticketNumber" : 4650, "jobs" : [ "Geologia" ], "favFruits" : [ "Banana", "Maçã", "Banana" ], "movies" : [ { "title" : "12 Homens e uma Sentença (1957)", "rating" : 1.58 }, { "title" : "Um Sonho de Liberdade (1994)", "rating" : 0.42 }, { "title" : "Matrix (1999)", "rating" : 4.96 }, { "title" : "1917 (2019)", "rating" : 4.96 }, { "title" : "Batman: O Cavaleiro das Trevas (2008)", "rating" : 4 } ] }
+{ "_id" : ObjectId("5ea595788a24bd0f931e50e0"), "firstname" : "Anna", "surname" : "Rossi", "username" : "user7408", "age" : 77, "email" : "Anna.Rossi@outlook.com", "bloodType" : "O+", "id_num" : "530425854477", "registerDate" : ISODate("2011-04-09T19:29:56.060Z"), "ticketNumber" : 2087, "jobs" : [ "Medicina", "Gestão Ambiental" ], "favFruits" : [ "Banana", "Tangerina" ], "movies" : [ { "title" : "À Espera de um Milagre (1999)", "rating" : 2.25 } ], "mother" : { "firstname" : "Silvia", "surname" : "Rossi", "age" : 108 }, "cat" : { "name" : "Enrico", "age" : 9 } }
 ```
 <br/>
 
 > 13. Crie um italiano que tenha um leão como animal de estimação. Associe um nome e idade ao bichano
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.insert({"firstname":"Felipe Eduardo","surname":"Gomes","age":29,"username":"fegomes","email":"fegomes@furb.br","bloodType":"A+","id_num":"13","registeredDate":new Date(), "ticketNumber" : 1313,"jobs":["Analista de Sistemas"],"favFruits":["Banana","Uva","Abacate"],"movies":[{title:"A espera de um milagre","rating":10},{"title":"Harry Potter","rating":6}],"mother" : { "firstname" : "Ana Cecilia", "surname" : "Reiter", "age" : 55 },"lion":{"name":"Juba","age":13}})
+```
+```
+WriteResult({ "nInserted" : 1 })
 ```
 <br/>
 
 > 14. Infelizmente o Leão comeu o italiano. Remova essa pessoa usando o Id.
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.findOne({firstname:'Felipe Eduardo'},{firstname:1,surname:1}) 
+```
+```
+{
+        "_id" : ObjectId("5ea63547c7c252ac58cea2e9"),
+        "firstname" : "Felipe Eduardo",
+        "surname" : "Gomes"
+}
+```
+```
+db.italians.deleteOne({_id: ObjectId("5ea63547c7c252ac58cea2e9")})
+```
+```
+{ "acknowledged" : true, "deletedCount" : 1 }
 ```
 <br/>
 
 > 15. Passou um ano. Atualize a idade de todos os italianos e dos bichanos em 1.
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.updateMany({}, {$inc:{'age':1}})
+{ "acknowledged" : true, "matchedCount" : 10000, "modifiedCount" : 10000 }
+```
+```
+db.italians.updateMany({cat:{$exists:true}}, {$inc:{'cat.age':1}})
+{ "acknowledged" : true, "matchedCount" : 6025, "modifiedCount" : 6025 }
+```
+```
+db.italians.updateMany({dog:{$exists:true}}, {$inc:{'dog.age':1}})
+{ "acknowledged" : true, "matchedCount" : 3933, "modifiedCount" : 3933 }
 ```
 <br/>
 
 > 16. O Corona Vírus chegou na Itália e misteriosamente atingiu pessoas somente com gatos e de 66 anos. Remova esses italianos.
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.deleteMany({age: {$eq:66}, cat:{$exists:true}})
+```
+```
+{ "acknowledged" : true, "deletedCount" : 83 }
 ```
 <br/>
 
 > 17. Utilizando o framework agregate, liste apenas as pessoas com nomes iguais a sua respectiva mãe e que tenha gato ou cachorro.
 
 ```
-MATCH (m:Movie) RETURN m.title AS `Título`,m.released AS `Data de Lançamento`,m.tagline AS `Slogan`
+db.italians.aggregate([{$match:{$expr:{$eq:['$firstname','$mother.firstname']},$or:[{dog:{$exists:true}},{cat:{$exists:true}}]}}])
+```
+```
+{ "_id" : ObjectId("5ea595708a24bd0f931e3cae"), "firstname" : "Cinzia", "surname" : "Ruggiero", "username" : "user2238", "age" : 57, "email" : "Cinzia.Ruggiero@uol.com.br", "bloodType" : "A+", "id_num" : "608050352746", "registerDate" : ISODate("2014-08-13T01:29:58.591Z"), "ticketNumber" : 9219, "jobs" : [ "Linguística", "Gerontologia" ], "favFruits" : [ "Goiaba", "Uva", "Pêssego" ], "movies" : [ { "title" : "Star Wars, Episódio V: O Império Contra-Ataca (1980)", "rating" : 0.21 } ], "mother" : { "firstname" : "Cinzia", "surname" : "Ruggiero", "age" : 88 }, "cat" : { "name" : "Rita", "age" : 9 }, "dog" : { "name" : "Giacomo", "age" : 16 } }
+{ "_id" : ObjectId("5ea595718a24bd0f931e3db0"), "firstname" : "Valentina", "surname" : "Leone", "username" : "user2496", "age" : 70, "email" : "Valentina.Leone@live.com", "bloodType" : "AB+", "id_num" : "105525880106", "registerDate" : ISODate("2008-11-05T23:59:10.586Z"), "ticketNumber" : 7262, "jobs" : [ "Educação Física", "Sistemas para Internet" ], "favFruits" : [ "Kiwi" ], "movies" : [ { "title" : "A Lista de Schindler (1993)", "rating" : 2.1 }, { "title" : "Clube da Luta (1999)", "rating" : 1.73 } ], "mother" : { "firstname" : "Valentina", "surname" : "Leone", "age" : 97 }, "father" : { "firstname" : "Davide", "surname" : "Leone", "age" : 87 }, "cat" : { "name" : "Domenico", "age" : 13 } }
+{ "_id" : ObjectId("5ea595748a24bd0f931e45cb"), "firstname" : "Massimo", "surname" : "Bianchi", "username" : "user4571", "age" : 71, "email" : "Massimo.Bianchi@outlook.com", "bloodType" : "A+", "id_num" : "271446732842", "registerDate" : ISODate("2018-05-16T04:45:43.412Z"), "ticketNumber" : 5638, "jobs" : [ "Gestão de Segurança Privada", "Matemática" ], "favFruits" : [ "Melancia", "Pêssego" ], "movies" : [ { "title" : "Três Homens em Conflito (1966)", "rating" : 4.98 } ], "mother" : { "firstname" : "Massimo", "surname" : "Bianchi", "age" : 90 }, "cat" : { "name" : "Lorenzo", "age" : 14 } }
+{ "_id" : ObjectId("5ea595758a24bd0f931e487b"), "firstname" : "Valeira", "surname" : "Conte", "username" : "user5259", "age" : 11, "email" : "Valeira.Conte@hotmail.com", "bloodType" : "AB+", "id_num" : "716235860615", "registerDate" : ISODate("2012-04-15T18:26:41.906Z"), "ticketNumber" : 3228, "jobs" : [ "Música", "Engenharia Civil" ], "favFruits" : [ "Melancia" ], "movies" : [ { "title" : "Interestelar (2014)", "rating" : 0.32 }, { "title" : "Cidade de Deus (2002)", "rating" : 2.55 }, { "title" : "Seven: Os Sete Crimes Capitais (1995)", "rating" : 4.79 } ], "mother" : { "firstname" : "Valeira", "surname" : "Conte", "age" : 38 }, "dog" : { "name" : "Luigi", "age" : 13 } }
+{ "_id" : ObjectId("5ea595788a24bd0f931e4eed"), "firstname" : "Dario", "surname" : "Giuliani", "username" : "user6909", "age" : 52, "email" : "Dario.Giuliani@hotmail.com", "bloodType" : "O-", "id_num" : "637614073628", "registerDate" : ISODate("2010-11-01T00:06:12.464Z"), "ticketNumber" : 6033, "jobs" : [ "Gestão da Qualidade", "Segurança da Informação" ], "favFruits" : [ "Uva", "Melancia", "Tangerina" ], "movies" : [ { "title" : "À Espera de um Milagre (1999)", "rating" : 3.75 }, { "title" : "A Viagem de Chihiro (2001)", "rating" : 4.99 }, { "title" : "A Origem (2010)", "rating" : 0.88 } ], "mother" : { "firstname" : "Dario", "surname" : "Giuliani", "age" : 76 }, "father" : { "firstname" : "Enrico", "surname" : "Giuliani", "age" : 87 }, "cat" : { "name" : "Angela", "age" : 9 }, "dog" : { "name" : "Eleonora", "age" : 18 } }
+{ "_id" : ObjectId("5ea5957b8a24bd0f931e5861"), "firstname" : "Giovanna", "surname" : "Vitali", "username" : "user9329", "age" : 50, "email" : "Giovanna.Vitali@uol.com.br", "bloodType" : "A+", "id_num" : "738371105540", "registerDate" : ISODate("2007-09-14T19:17:29.770Z"), "ticketNumber" : 2812, "jobs" : [ "Manutenção de aeronaves", "Ciências Contábeis" ], "favFruits" : [ "Banana", "Goiaba", "Mamão" ], "movies" : [ { "title" : "Coringa (2019)", "rating" : 2.92 }, { "title" : "Um Estranho no Ninho (1975)", "rating" : 1.31 }, { "title" : "Coringa (2019)", "rating" : 2.14 }, { "title" : "Matrix (1999)", "rating" : 3.04 }, { "title" : "12 Homens e uma Sentença (1957)", "rating" : 2.22 } ], "mother" : { "firstname" : "Giovanna", "surname" : "Vitali", "age" : 81 }, "cat" : { "name" : "Ilaria", "age" : 10 } }
 ```
 <br/>
 
