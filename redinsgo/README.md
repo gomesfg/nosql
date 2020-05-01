@@ -10,23 +10,27 @@ O Redinsgo é um jogo de bingo que utiliza estruturas em um banco chave/valor. P
 <br/>
 
 ### Iniciar ambiente
-NODE JS
-<br/>
+#### node.js
 Baixar pacote do node.js
 
-REDIS
-<br/>
-// Baixar a imagem do redis
+#### redis
+Baixar a imagem do redis
 ```
 docker pull redis
 ```
 
-// Rodar a instancia do redis na porta 6379
+Rodar a instancia do redis na porta 6379
 ```
 docker run --name instancia_redis -p 6379:6379 -d redis redis-server --appendonly no
 ```
 
-// Acessar o cliente do redis dento do contêiner
+Acessar o cliente do redis dento do contêiner
 ```
 docker exec -it instancia_redis redis-cli
+```
+
+### Execução
+Executar o comando abaixo no shell
+```
+node app.js
 ```
