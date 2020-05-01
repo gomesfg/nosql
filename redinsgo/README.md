@@ -6,14 +6,16 @@ Aluno: Felipe Eduardo Gomes
 ## Sobre
 O Redinsgo é um jogo de bingo que utiliza estruturas em um banco chave/valor. Para seu desenvolvimento foi utilizado o node.js e o banco de dados não relacional Redis.
 <br/>
-![alt text](https://github.com/gomesfg/nosql/tree/master/redinsgo/img/redinsgo.PNG?raw=true)
+![alt text](https://raw.githubusercontent.com/gomesfg/nosql/master/redinsgo/img/redinsgo.PNG)
 <br/>
 
 ### Iniciar ambiente
 NODE JS
+<br/>
 Baixar pacote do node.js
 
 REDIS
+<br/>
 // Baixar a imagem do redis
 ```
 docker pull redis
